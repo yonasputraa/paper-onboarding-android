@@ -5,6 +5,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,6 +52,7 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
 
     // application context
     private final Context mAppContext;
+    private final Context mActivityContext;
 
     // state variables
     private ArrayList<PaperOnboardingPage> mElements = new ArrayList<>();
@@ -78,6 +82,7 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
 
         this.mElements.addAll(contentElements);
         this.mAppContext = appContext.getApplicationContext();
+        this.mActivityContext = rootLayout.getContext();
 
         mRootLayout = (RelativeLayout) rootLayout;
         mContentTextContainer = (FrameLayout) rootLayout.findViewById(R.id.onboardingContentTextContainer);
@@ -468,8 +473,14 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
         ViewGroup contentTextView = (ViewGroup) vi.inflate(R.layout.onboarding_text_content_layout, mContentTextContainer, false);
         TextView contentTitle = (TextView) contentTextView.getChildAt(0);
         contentTitle.setText(PaperOnboardingPage.getTitleText());
+        contentTitle.setTextSize(24);
+        contentTitle.setTextColor(Color.WHITE);
+        contentTitle.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
         TextView contentText = (TextView) contentTextView.getChildAt(1);
         contentText.setText(PaperOnboardingPage.getDescriptionText());
+        contentText.setTextSize(20);
+        contentText.setTextColor(Color.WHITE);
+        contentText.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
         return contentTextView;
     }
 
@@ -539,4 +550,7 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
     }
 
 
+    protected float spToPx(float sp) {
+        return sp * Resources.getSystem().getDisplayMetrics().scaledDensity;
+    }
 }
